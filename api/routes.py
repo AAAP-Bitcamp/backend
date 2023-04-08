@@ -1,13 +1,24 @@
 import string
 import secrets
 
-from flask import Blueprint
+from flask import Blueprint, request
 
 routes = Blueprint('routes', __name__)
 
 @routes.route('/')
 def index():
     return "<p>Home Page</p>"
+
+@routes.route('/users', methods=['POST'])
+def create_user():
+    data = request.get_json() or {}
+
+@routes.route('/room', methods=['POST'])
+def create_room():
+    data = request.get_json() or {}
+
+
+
 
 @routes.route('/users')
 def add_user(name: str, image: str):
