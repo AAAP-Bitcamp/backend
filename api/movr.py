@@ -22,3 +22,6 @@ class MovR:
         """
         self.engine = create_engine(conn_string)
         self.sessionmaker = sessionmaker(bind=self.engine)
+    
+
+    # DEFINE DATABASE TRANSACTIONS HERE!
