@@ -34,7 +34,7 @@ def add_room_txn(session, code, user_id):
     return {
         'id': r.id,
         'code': r.code,
-        'creator': r.creator
+        'creator': u.name
     }
 
 def get_room_txn(session, code):
