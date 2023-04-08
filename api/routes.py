@@ -2,10 +2,8 @@ import string
 import secrets
 
 from api import movr
-from flask_sqlalchemy import SQLAlchemy
 from flask import Blueprint, jsonify, request
 
-db = SQLAlchemy()
 routes = Blueprint('routes', __name__)
 
 @routes.route('/')
