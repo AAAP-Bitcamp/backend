@@ -1,36 +1,30 @@
-import string
-import secrets
+from api import movr
+from flask_sqlalchemy import SQLAlchemy
+from flask import Blueprint, request, url_for
 
-from flask import Blueprint, request
-
+db = SQLAlchemy()
 routes = Blueprint('routes', __name__)
 
 @routes.route('/')
 def index():
-    return "<p>Home Page</p>"
+    return {'message', 'Home page for Photo Assassin API!'}
 
 @routes.route('/users', methods=['POST'])
-def create_user():
+def add_user():
     data = request.get_json() or {}
+    if 'name' not in data or 'image' not in data:
+        return {
+            'code': 400,
+            'message': 'Must include name and image!'
+        }, 400
+    movr.add_user(data['name'], data['image'])
 
-@routes.route('/room', methods=['POST'])
-def create_room():
+@routes.route('/rooms', methods=['POST'])
+def add_room():
     data = request.get_json() or {}
-
-
-
-
-@routes.route('/users')
-def add_user(name: str, image: str):
-    return 'add return here'
-
-@routes.route('/room/create')
-def create():
-    return {
-        'room_code': ''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(7))
-    }
-
-@routes.route('/room/:room_code')
-def create_room(room_code: string):
-    # store image in cockroachdb
-    return "add return here"
+    if 'name' not in data:
+        return {
+            'code': 400,
+            'message': 'Error! Unable to find account name.'
+        }, 400
+    movr.add_room(data['name'])

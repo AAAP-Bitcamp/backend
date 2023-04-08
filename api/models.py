@@ -7,14 +7,14 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ == 'users'
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID, primary_key=True)
     name = Column(String)
     image = Column(String)
-    room = Column(Integer, ForeignKey('rooms.id'))
+    room = Column(UUID, ForeignKey('rooms.id'))
 
 
 class Room(Base):
     __tablename__ == 'rooms'
-    id = Column(Integer, primary_key=True)
-    code = Column(String)
-    creator = Column(Integer, ForeignKey('users.id'))
+    id = Column(UUID, primary_key=True)
+    code = Column(String, index=True)
+    creator = Column(UUID, ForeignKey('users.id'))
