@@ -1,3 +1,6 @@
+import string
+import secrets
+
 from api import movr
 from flask_sqlalchemy import SQLAlchemy
 from flask import Blueprint, jsonify, request
@@ -7,7 +10,7 @@ routes = Blueprint('routes', __name__)
 
 @routes.route('/')
 def index():
-    return jsonify({'message': 'Home page for Photo Assassin API!'})
+    return {'message': 'Home page for Photo Assassin API!'}
 
 @routes.route('/users', methods=['POST'])
 def add_user():
@@ -23,10 +26,11 @@ def add_user():
 @routes.route('/rooms', methods=['POST'])
 def add_room():
     data = request.get_json() or {}
-    if 'code' not in data or 'user_id' not in data:
+    if 'user_id' not in data:
         return {
             'code': 400,
             'message': 'Error! Unable to find account name.'
         }, 400
-    room = movr.add_room(data['code'], data['user_id'])
+    code = ''.join(secrets.choice(string.ascii_letters) for i in range(8))
+    room = movr.add_room(code, data['user_id'])
     return room

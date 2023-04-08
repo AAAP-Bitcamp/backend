@@ -23,8 +23,8 @@ class MovR:
             conn_string {String} -- CockroachDB connection string.
         """
         conn_string = app.config.get('DATABASE_URL')
-        conn_string = conn_string.replace("postgresql://", "cockroachdb://")
-        self.engine = create_engine(conn_string, convert_unicode=True)
+        conn_string = conn_string.replace("postgresql://", "cockroachdb+psycopg2://")
+        self.engine = create_engine(conn_string)
         self.sessionmaker = sessionmaker(bind=self.engine)
 
     def add_user(self, name, image):

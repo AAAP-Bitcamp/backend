@@ -1,6 +1,6 @@
 from api.movr import MovR
 from config import Config
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
 from flask_socketio import SocketIO
 
@@ -18,7 +18,7 @@ def create_app(config_class=Config):
 
     @app.route('/')
     def index():
-        return jsonify({'success': 'Hello World!'})
+        return {'success': 'Hello World!'}
 
     from api.routes import routes
     app.register_blueprint(routes, url_prefix='/api')
