@@ -1,4 +1,4 @@
-from api.transactions import add_user_txn, get_user_txn, get_users_txn, add_room_txn, get_room_txn, add_room_user
+from api.transactions import add_user_txn, get_user_txn, get_users_txn, add_room_txn, get_room_txn, add_room_user, remove_room_user
 from sqlalchemy_cockroachdb import run_transaction
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -39,4 +39,7 @@ class MovR:
     
     def add_room_user(self, room_id, user_id):
         return run_transaction(self.sessionmaker, lambda session: add_room_user(session, room_id, user_id))
+    
+    def remove_room_user(self, room_id, user_id):
+        return run_transaction(self.sessionmaker, lambda session: remove_room_user(session, room_id, user_id))
     

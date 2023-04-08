@@ -22,9 +22,9 @@ def add_user():
 @routes.route('/rooms', methods=['POST'])
 def add_room():
     data = request.get_json() or {}
-    if 'name' not in data:
+    if 'code' not in data or 'user_id' not in data:
         return {
             'code': 400,
             'message': 'Error! Unable to find account name.'
         }, 400
-    movr.add_room(data['name'])
+    movr.add_room(data['code'], data['user_id'])

@@ -53,3 +53,14 @@ def add_room_user(session, room_id, user_id):
         'image': u.image,
         'room': u.room
     }
+
+def remove_room_user(session, room_id, user_id):
+    u = session.query(User).filter(User.id == user_id).first()
+    u.room = None
+    session.add(u)
+    return {
+        'id': u.id,
+        'name': u.name,
+        'image': u.image,
+        'room': u.room
+    }
