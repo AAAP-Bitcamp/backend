@@ -5,13 +5,13 @@ CREATE TABLE users (
     id UUID PRIMARY KEY,
     name STRING NOT NULL,
     image STRING NOT NULL,
-    room INT
+    room UUID
 );
 
 CREATE TABLE rooms (
     id UUID PRIMARY KEY,
     code STRING NOT NULL UNIQUE,
-    creator INT
+    creator UUID
 );
 
 CREATE INDEX idx_rooms_code ON rooms (code);

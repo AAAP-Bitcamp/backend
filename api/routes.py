@@ -1,13 +1,13 @@
 from api import movr
 from flask_sqlalchemy import SQLAlchemy
-from flask import Blueprint, request, url_for
+from flask import Blueprint, jsonify, request
 
 db = SQLAlchemy()
 routes = Blueprint('routes', __name__)
 
 @routes.route('/')
 def index():
-    return {'message', 'Home page for Photo Assassin API!'}
+    return jsonify({'message': 'Home page for Photo Assassin API!'})
 
 @routes.route('/users', methods=['POST'])
 def add_user():
@@ -17,7 +17,8 @@ def add_user():
             'code': 400,
             'message': 'Must include name and image!'
         }, 400
-    movr.add_user(data['name'], data['image'])
+    user = movr.add_user(data['name'], data['image'])
+    return user
 
 @routes.route('/rooms', methods=['POST'])
 def add_room():
@@ -27,4 +28,5 @@ def add_room():
             'code': 400,
             'message': 'Error! Unable to find account name.'
         }, 400
-    movr.add_room(data['code'], data['user_id'])
+    room = movr.add_room(data['code'], data['user_id'])
+    return room

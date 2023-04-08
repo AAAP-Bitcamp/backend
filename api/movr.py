@@ -12,14 +12,19 @@ class MovR:
     Wraps the database connection. The class methods wrap database transactions.
     """
 
-    def __init__(self, conn_string):
+    def __init__(self):
+        pass
+
+    def init_app(self, app):
         """
         Establish a connection to the database, creating Engine and Sessionmaker objects.
 
         Arguments:
             conn_string {String} -- CockroachDB connection string.
         """
-        self.engine = create_engine(conn_string)
+        conn_string = app.config.get('DATABASE_URL')
+        conn_string = conn_string.replace("postgresql://", "cockroachdb://")
+        self.engine = create_engine(conn_string, convert_unicode=True)
         self.sessionmaker = sessionmaker(bind=self.engine)
 
     def add_user(self, name, image):
