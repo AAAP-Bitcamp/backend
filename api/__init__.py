@@ -1,5 +1,5 @@
 from config import Config
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_socketio import SocketIO
 
@@ -16,7 +16,7 @@ def create_app(config_class=Config):
 
     @app.route('/')
     def index():
-        return {'message': 'Hello World!'}
+        return jsonify({'success': 'Hello World!'})
 
     from api.movr import MovR
     movr = MovR(app.config.get('DATABASE_URL'))
