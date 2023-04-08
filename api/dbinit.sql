@@ -1,0 +1,18 @@
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS rooms;
+
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    name STRING NOT NULL,
+    image STRING NOT NULL,
+    room INT
+);
+
+CREATE TABLE rooms (
+    id INT PRIMARY KEY,
+    code STRING NOT NULL UNIQUE,
+    creator INT
+);
+
+ALTER TABLE users ADD FOREIGN KEY (room) REFERENCES rooms (id) ON DELETE SET NULL;
+ALTER TABLE rooms ADD FOREIGN KEY (creator) REFERENCES users (id) ON DELETE SET NULL;
