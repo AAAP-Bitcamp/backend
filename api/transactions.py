@@ -43,7 +43,7 @@ def get_room_txn(session, code):
         session.expunge(r)
     return r
 
-def add_room_user(session, room_id, user_id):
+def add_room_user_txn(session, room_id, user_id):
     u = session.query(User).filter(User.id == user_id).first()
     u.room = room_id
     session.add(u)
@@ -54,7 +54,7 @@ def add_room_user(session, room_id, user_id):
         'room': u.room
     }
 
-def remove_room_user(session, room_id, user_id):
+def remove_room_user_txn(session, room_id, user_id):
     u = session.query(User).filter(User.id == user_id).first()
     u.room = None
     session.add(u)
