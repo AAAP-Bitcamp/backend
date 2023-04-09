@@ -25,4 +25,6 @@ def create_app(config_class=Config):
     from api.sockets import sockets
     app.register_blueprint(sockets)
 
+    app.debug = True
+
     return app
