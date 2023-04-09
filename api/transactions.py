@@ -3,12 +3,13 @@ from api.models import User, Room
 import uuid
 
 def add_user_txn(session, name, image):
-    u = User(id=str(uuid.uuid4()), name=name, image=image)
+    u = User(id=str(uuid.uuid4()), name=name, image=image, score=0)
     session.add(u)
     return {
         'id': str(u.id),
         'name': u.name,
-        'image': u.image
+        'image': u.image,
+        'score': u.score
     }
 
 def get_user_txn(session, id):
@@ -22,7 +23,9 @@ def get_users_txn(session, room_id):
     return list(map(lambda user: {
         'id': str(user.id),
         'name': user.name,
-        'image': user.image
+        'image': user.image,
+        'score': user.score,
+        'room': str(user.room)
     }, users))
 
 def add_room_txn(session, code, user_id):
@@ -51,16 +54,17 @@ def add_room_user_txn(session, room_id, user_id):
         'id': str(u.id),
         'name': u.name,
         'image': u.image,
+        'score': u.score,
         'room': str(u.room)
     }
 
-def remove_room_user_txn(session, room_id, user_id):
-    u = session.query(User).filter(User.id == user_id).first()
-    u.room = None
-    session.add(u)
-    return {
-        'id': str(u.id),
-        'name': u.name,
-        'image': u.image,
-        'room': u.room
-    }
+# def remove_room_user_txn(session, room_id, user_id):
+#     u = session.query(User).filter(User.id == user_id).first()
+#     u.room = None
+#     session.add(u)
+#     return {
+#         'id': str(u.id),
+#         'name': u.name,
+#         'image': u.image,
+#         'room': u.room
+#     }

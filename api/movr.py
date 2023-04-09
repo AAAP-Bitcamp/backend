@@ -1,4 +1,4 @@
-from api.transactions import add_user_txn, get_user_txn, get_users_txn, add_room_txn, get_room_txn, add_room_user_txn, remove_room_user_txn
+from api.transactions import add_user_txn, get_user_txn, get_users_txn, add_room_txn, get_room_txn, add_room_user_txn
 from sqlalchemy_cockroachdb import run_transaction
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker

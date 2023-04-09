@@ -10,6 +10,7 @@ class User(Base):
     id = Column(UUID, primary_key=True)
     name = Column(String)
     image = Column(String)
+    score = Column(Integer)
     room = Column(UUID, ForeignKey('rooms.id'))
 
 
@@ -18,3 +19,11 @@ class Room(Base):
     id = Column(UUID, primary_key=True)
     code = Column(String, index=True)
     creator = Column(UUID, ForeignKey('users.id'))
+
+
+class RoomImage(Base):
+    __tablename__ = 'room_images'
+    id = Column(UUID, primary_key=True)
+    image = Column(String)
+    source = Column(UUID, ForeignKey('users.id'))
+    room = Column(UUID, ForeignKey('rooms.id'))
