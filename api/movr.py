@@ -45,6 +45,6 @@ class MovR:
     def add_room_user(self, room_id, user_id):
         return run_transaction(self.sessionmaker, lambda session: add_room_user_txn(session, room_id, user_id))
     
-    def remove_room_user(self, room_id, user_id):
-        return run_transaction(self.sessionmaker, lambda session: remove_room_user_txn(session, room_id, user_id))
+    # def remove_room_user(self, room_id, user_id):
+    #     return run_transaction(self.sessionmaker, lambda session: remove_room_user_txn(session, room_id, user_id))
     
