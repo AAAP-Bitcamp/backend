@@ -1,4 +1,4 @@
-from api.models import User, Room
+from api.models import User, Room, RoomImage
 
 import uuid
 
@@ -57,6 +57,19 @@ def add_room_user_txn(session, room_id, user_id):
         'score': u.score,
         'room': str(u.room)
     }
+
+def add_room_image_txn(session, room_code, user_id, image):
+    r = session.query(Room).filter(Room.code == room_code).first()
+    u = session.query(User).filter(User.id == user_id).first()
+    i = RoomImage(id=str(uuid.uuid4()), image=image, room=r.id)
+    u.score += 1
+    session.add(i)
+    session.add(u)
+
+def penalty_txn(session, user_id):
+    u = session.query(User).filter(User.id == user_id).first()
+    u.score -= 2
+    session.add(u)
 
 # def remove_room_user_txn(session, room_id, user_id):
 #     u = session.query(User).filter(User.id == user_id).first()

@@ -14,17 +14,18 @@ def index():
 @routes.route('/users', methods=['POST'])
 def add_user():
     data = request.get_json() or {}
+    # print(data)
     if 'name' not in data or 'image' not in data:
         return {
             'code': 400,
             'message': 'Must include name and image!'
         }, 400
-    print(data['image'])
-    if not User.verify_image(data['image']):
-        return {
-            'code': 400,
-            'message': 'Image is not valid!'
-        }, 400
+    # print(data['image'])
+    # if not User.verify_image(data['image']):
+    #     return {
+    #         'code': 400,
+    #         'message': 'Image is not valid!'
+    #     }, 400
     user = movr.add_user(data['name'], data['image'])
     return user
 

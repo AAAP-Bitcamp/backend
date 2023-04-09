@@ -48,5 +48,4 @@ class RoomImage(Base):
     __tablename__ = 'room_images'
     id = Column(UUID, primary_key=True)
     image = Column(String)
-    source = Column(UUID, ForeignKey('users.id'))
     room = Column(UUID, ForeignKey('rooms.id'))

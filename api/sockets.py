@@ -1,4 +1,5 @@
 from api import movr, socketio
+# from api.models import User
 from flask import Blueprint, request
 from flask_socketio import join_room, emit
 
@@ -13,11 +14,10 @@ def on_join(data):
     if user and room:
         movr.add_room_user(room.id, user.id)
         users = movr.get_users(room.id)
-        print(request.sid)
         join_room(room_code)
         emit('join', users, room=room_code)
     else:
-        emit('error', f'Could not join room: {room_code}')
+        emit('join', {'error': f'Could not join room: {room_code}'})
         
         
 @socketio.on('start')
@@ -27,11 +27,42 @@ def on_start(data):
     if room:
         users = movr.get_users(room.id)
         user_data = {user['name'] : user['score'] for user in users}
-        print(request.sid)
-        print(user_data)
         emit('start', user_data, room=room_code)
     else:
-        emit('error', f'Could not start game in room: {room_code}')
+        emit('start', {'error': f'Could not start game in room: {room_code}'})
+
+@socketio.on('verify')
+def on_verify(data):
+    room_code = data['room_code']
+    user_id = data['user_id']
+    image = data['image']
+    user = movr.get_user(user_id)
+    room = movr.get_room(room_code)
+    if user and room and image:
+        movr.add_room_image(room_code, user_id, image)
+        users = movr.get_users(room.id)
+        user = movr.get_user(user_id)
+        if user.score >= 5:
+            user_data = {user['name'] : user['score'] for user in users}
+            user_data = sorted(user_data, key=lambda d:d.value, reverse=True)
+            emit('end', user_data, room=room_code)
+        else:
+            emit('verify', users, room=room_code)
+    else:
+        emit('verify', {'error': f'Could not verify image'})
+
+@socketio.on('penalty')
+def on_penalty(data):
+    room_code = data['room_code']
+    user_id = data['user_id']
+    user = movr.get_user(user_id)
+    room = movr.get_room(room_code)
+    if user and room:
+        movr.penalty(user_id)
+        users = movr.get_users(room.id)
+        emit('verify', users, room=room_code)
+    else:
+        emit('penalty', {'error': f'Could not apply penalty'})
     
 
 # @socketio.on('leave')
