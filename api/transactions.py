@@ -14,8 +14,8 @@ def add_user_txn(session, name, image):
 
 def get_user_txn(session, id):
     u = session.query(User).filter(User.id == id).first()
-    # if u:   
-    #     session.expunge(u)
+    if u:   
+        session.expunge(u)
     return u
 
 def get_users_txn(session, room_id):
@@ -42,8 +42,8 @@ def add_room_txn(session, code, user_id):
 
 def get_room_txn(session, code):
     r = session.query(Room).filter(Room.code == code).first()
-    # if r:
-    #     session.expunge(r)
+    if r:
+        session.expunge(r)
     return r
 
 def add_room_user_txn(session, room_id, user_id):
