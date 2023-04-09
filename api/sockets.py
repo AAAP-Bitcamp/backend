@@ -32,9 +32,9 @@ def on_start(data):
         user_data = {user['name'] : user['score'] for user in users}
         print('Done user data')
         print(request.sid)
-        emit('start', user_data, room=room_code)
+        emit('start', user_data, room=room_code, broadcast=False)
     else:
-        emit('start', {'error': f'Could not start game in room: {room_code}'})
+        emit('start', {'error': f'Could not start game in room: {room_code}'}, room=room_code,broadcast=False)
 
 @socketio.on('verify')
 def on_verify(data):
