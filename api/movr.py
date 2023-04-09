@@ -1,4 +1,4 @@
-from api.transactions import add_user_txn, get_user_txn, get_users_txn, add_room_txn, get_room_txn, add_room_user_txn, add_room_image_txn, penalty_txn
+from api.transactions import add_user_txn, get_user_txn, get_users_txn, add_room_txn, get_room_txn, add_room_user_txn, add_room_image_txn, penalty_txn, get_images_txn, delete_images_txn
 from sqlalchemy_cockroachdb import run_transaction
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -50,6 +50,12 @@ class MovR:
     
     def penalty(self, user_id):
         return run_transaction(self.sessionmaker, lambda session: penalty_txn(session, user_id))
+    
+    def get_images(self, room_id):
+        return run_transaction(self.sessionmaker, lambda session: get_images_txn(session, room_id))
+    
+    def delete_images(self, room_id):
+        return run_transaction(self.sessionmaker, lambda session: delete_images_txn(session, room_id))
     
     # def remove_room_user(self, room_id, user_id):
     #     return run_transaction(self.sessionmaker, lambda session: remove_room_user_txn(session, room_id, user_id))

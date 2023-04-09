@@ -71,6 +71,19 @@ def penalty_txn(session, user_id):
     u.score -= 2
     session.add(u)
 
+def get_images_txn(session, room_id):
+    images = session.query(RoomImage).filter(RoomImage.room == room_id).all()
+    return list(map(lambda image: {
+        'id': str(image.id),
+        'image': image.image,
+        'room': str(image.room)
+    }, images))
+
+def delete_images_txn(session, room_id):
+    images = session.query(RoomImage).filter(RoomImage.room == room_id).all()
+    for image in images:
+        session.delete(image)
+
 # def remove_room_user_txn(session, room_id, user_id):
 #     u = session.query(User).filter(User.id == user_id).first()
 #     u.room = None

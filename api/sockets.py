@@ -45,7 +45,9 @@ def on_verify(data):
         if user.score >= 5:
             user_data = {user['name'] : user['score'] for user in users}
             user_data = sorted(user_data, key=lambda d:d.value, reverse=True)
-            emit('end', user_data, room=room_code)
+            images = movr.get_images(room.id)
+            movr.delete_images(room.id)
+            emit('end', {'scoreboard': user_data, 'images': images}, room=room_code)
         else:
             emit('verify', users, room=room_code)
     else:
