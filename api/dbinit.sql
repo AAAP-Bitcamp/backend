@@ -1,10 +1,12 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS rooms CASCADE;
+DROP TABLE IF EXISTS room_images CASCADE;
 
 CREATE TABLE users (
     id UUID PRIMARY KEY,
     name STRING NOT NULL,
     image STRING NOT NULL,
+    score INTEGER,
     room UUID
 );
 
@@ -14,7 +16,16 @@ CREATE TABLE rooms (
     creator UUID
 );
 
+CREATE TABLE room_images (
+    id UUID PRIMARY KEY,
+    image STRING NOT NULL,
+    source UUID,
+    room UUID
+);
+
 CREATE INDEX idx_rooms_code ON rooms (code);
 
 ALTER TABLE users ADD FOREIGN KEY (room) REFERENCES rooms (id) ON DELETE SET NULL;
 ALTER TABLE rooms ADD FOREIGN KEY (creator) REFERENCES users (id) ON DELETE SET NULL;
+ALTER TABLE room_images ADD FOREIGN KEY (source) REFERENCES users (id) ON DELETE CASCADE;
+ALTER TABLE room_images ADD FOREIGN KEY (room) REFERENCES rooms (id) ON DELETE CASCADE;

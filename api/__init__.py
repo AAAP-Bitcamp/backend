@@ -23,6 +23,6 @@ def create_app(config_class=Config):
     from api.routes import routes
     app.register_blueprint(routes, url_prefix='/api')
     from api.sockets import sockets
-    app.register_blueprint(sockets, url_prefix='/sockets')
+    app.register_blueprint(sockets)
 
     return app
