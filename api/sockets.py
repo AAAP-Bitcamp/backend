@@ -13,8 +13,8 @@ def on_join(data):
     if user and room:
         movr.add_room_user(room.id, user.id)
         users = movr.get_users(room.id)
-        join_room(room_code)
-        emit('join', users, room=room_code)
+        join_room(room.id)
+        emit('join', users, room=room.id)
     else:
         emit('error', f'Could not join room: {room_code}')
         
@@ -26,8 +26,8 @@ def on_start(data):
     if room:
         users = movr.get_users(room.id)
         user_data = {user['name'] : user['score'] for user in users}
-        join_room(room_code)
-        emit('start', user_data, room=room_code)
+        # join_room(room_code)
+        emit('start', user_data, room=room.id)
     else:
         emit('error', f'Could not start game in room: {room_code}')
     
