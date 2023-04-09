@@ -14,8 +14,9 @@ def on_join(data):
     if user and room:
         movr.add_room_user(room.id, user.id)
         users = movr.get_users(room.id)
-        join_room(room_code)
-        emit('join', users, to=room_code)
+        # join_room(room_code)
+        # emit('join', users, to=room_code)
+        emit('join', users, broadcast=True)
     else:
         emit('join', {'error': f'Could not join room: {room_code}'})
         
@@ -32,9 +33,10 @@ def on_start(data):
         user_data = {user['name'] : user['score'] for user in users}
         print('Done user data')
         print(request.sid)
-        emit('start', user_data, broadcast=False, to=room_code)
+        # emit('start', user_data, broadcast=False, to=room_code)
+        emit('start', user_data, broadcast=True)
     else:
-        emit('start', {'error': f'Could not start game in room: {room_code}'}, room=room_code,broadcast=False)
+        emit('start', {'error': f'Could not start game in room: {room_code}'}, broadcast=True)
 
 @socketio.on('verify')
 def on_verify(data):
