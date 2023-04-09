@@ -2,6 +2,7 @@ import string
 import secrets
 
 from api import movr
+from api.models import User
 from flask import Blueprint, jsonify, request
 
 routes = Blueprint('routes', __name__)
@@ -17,6 +18,11 @@ def add_user():
         return {
             'code': 400,
             'message': 'Must include name and image!'
+        }, 400
+    if not User.verify_image(data['image']):
+        return {
+            'code': 400,
+            'message': 'Image is not valid!'
         }, 400
     user = movr.add_user(data['name'], data['image'])
     return user
