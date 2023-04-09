@@ -22,11 +22,15 @@ def on_join(data):
         
 @socketio.on('start')
 def on_start(data):
+    print(data)
     room_code = data['room_code']
     room = movr.get_room(room_code)
+    print(room.id if room else None)
     if room:
         users = movr.get_users(room.id)
+        print('Now user data')
         user_data = {user['name'] : user['score'] for user in users}
+        print('Done user data')
         print(request.sid)
         emit('start', user_data, room=room_code)
     else:
