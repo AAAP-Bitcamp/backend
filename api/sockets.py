@@ -27,6 +27,7 @@ def on_start(data):
     if room:
         users = movr.get_users(room.id)
         user_data = {user['name'] : user['score'] for user in users}
+        print(request.sid)
         emit('start', user_data, room=room_code)
     else:
         emit('start', {'error': f'Could not start game in room: {room_code}'})
@@ -47,6 +48,7 @@ def on_verify(data):
             user_data = sorted(user_data, key=lambda d:d.value, reverse=True)
             images = movr.get_images(room.id)
             movr.delete_images(room.id)
+            print(request.sid)
             emit('end', {'scoreboard': user_data, 'images': images}, room=room_code)
         else:
             emit('verify', users, room=room_code)
@@ -62,6 +64,7 @@ def on_penalty(data):
     if user and room:
         movr.penalty(user_id)
         users = movr.get_users(room.id)
+        print(request.sid)
         emit('verify', users, room=room_code)
     else:
         emit('penalty', {'error': f'Could not apply penalty'})
