@@ -6,7 +6,7 @@ def add_user_txn(session, name, image):
     u = User(id=str(uuid.uuid4()), name=name, image=image)
     session.add(u)
     return {
-        'id': u.id,
+        'id': str(u.id),
         'name': u.name,
         'image': u.image
     }
@@ -18,9 +18,9 @@ def get_user_txn(session, id):
     return u
 
 def get_users_txn(session, room_id):
-    users = session.query(User).filter(User.room_id == room_id).all()
+    users = session.query(User).filter(User.room == room_id).all()
     return list(map(lambda user: {
-        'id': user.id,
+        'id': str(user.id),
         'name': user.name,
         'image': user.image
     }, users))
@@ -32,7 +32,7 @@ def add_room_txn(session, code, user_id):
     session.add(r)
     session.add(u)
     return {
-        'id': r.id,
+        'id': str(r.id),
         'code': r.code,
         'creator': u.name
     }
@@ -48,10 +48,10 @@ def add_room_user_txn(session, room_id, user_id):
     u.room = room_id
     session.add(u)
     return {
-        'id': u.id,
+        'id': str(u.id),
         'name': u.name,
         'image': u.image,
-        'room': u.room
+        'room': str(u.room)
     }
 
 def remove_room_user_txn(session, room_id, user_id):
@@ -59,7 +59,7 @@ def remove_room_user_txn(session, room_id, user_id):
     u.room = None
     session.add(u)
     return {
-        'id': u.id,
+        'id': str(u.id),
         'name': u.name,
         'image': u.image,
         'room': u.room
