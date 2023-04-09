@@ -6,6 +6,7 @@ sockets = Blueprint('sockets', __name__)
 
 @socketio.on('join')
 def on_join(data):
+    print(data)
     user_id = data['user_id']
     room_code = data['room_code']
     print('Getting user')
