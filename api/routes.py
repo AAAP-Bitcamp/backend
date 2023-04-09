@@ -19,6 +19,7 @@ def add_user():
             'code': 400,
             'message': 'Must include name and image!'
         }, 400
+    print(data['image'])
     if not User.verify_image(data['image']):
         return {
             'code': 400,
